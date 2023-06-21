@@ -59,7 +59,7 @@ func (je JsonExporter) Export(filename string) error {
 	}
 
 	schemaPath := strings.TrimSuffix(strings.TrimSuffix(paths[0], ".min.json"), ".json") + ".schema.json"
-	content[schemaPath] = []byte(strings.TrimSpace(Schema))
+	content[schemaPath] = []byte(strings.TrimSpace(strings.ReplaceAll(Schema, "\t", "    ")))
 
 	removePathOnFail := ""
 	for path, c := range content {
