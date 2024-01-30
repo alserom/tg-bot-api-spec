@@ -109,9 +109,19 @@ func (s *Scraper) FillApiSpec(as *spec.ApiSpec) error {
 	}
 
 	if len(childToParent) > 0 {
+		for childName, parent := range childToParent {
+			if child, ok := as.GetType(childName); ok {
+				child.SetParent(parent)
+				parent.AddChild(child)
+				delete(childToParent, childName)
+			}
+		}
+	}
+
+	if len(childToParent) > 0 {
 		msg := "some types were not added to the spec:"
-		for name := range childToParent {
-			msg += "\n- " + name
+		for childName := range childToParent {
+			msg += "\n- " + childName
 		}
 		return errors.New(msg)
 	}

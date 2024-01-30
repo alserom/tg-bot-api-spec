@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -97,7 +96,7 @@ func execute(source, dir string) error {
 	}
 
 	outVersion := out + "/version.json"
-	err = ioutil.WriteFile(outVersion, []byte(fmt.Sprintf(`{"version":"%s"}`, spec.GetVersion())), 0644)
+	err = os.WriteFile(outVersion, []byte(fmt.Sprintf(`{"version":"%s"}`, spec.GetVersion())), 0644)
 	fmt.Println("saving: " + outVersion)
 	if err != nil {
 		return err
